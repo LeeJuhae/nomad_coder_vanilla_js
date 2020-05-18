@@ -1,6 +1,21 @@
-const API_KEY = "871e0749298f4ab3050e979e503c4fbd";
+const weather = document.querySelector(".js-weather");
+
+const API_KEY ='871e0749298f4ab3050e979e503c4fbd';
 const COORDS = 'coords';
 
+function getWeather(latitude, longitude){
+	fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
+	).then(function(response){
+		return response.json();
+	}).then(function(json){
+		const temperature = json.main.temp;
+		const place = json.name;
+		weather.innerText = `${temperature} @ ${place}`
+	})
+	// ** Why use function 'then()'**
+	// We call a function once we have a data.
+	// Because sometimes a data takes some time.
+}
 function saveCoords(coordsObj){
 	localStorage.setItem(COORDS, JSON.stringify(coordsObj));
 }
@@ -13,6 +28,7 @@ function handleGeoSuccess(position){
 		longitude
 	};
 	saveCoords(coordsObj);
+	getWeather(latitude, longitude);
 }
 
 function handleGeoError(){
@@ -28,7 +44,8 @@ function loadCoords(){
 	if (loadedCoords === null){
 		askForCoords();
 	}else{
-		//getWeather
+		const parseCoords = JSON.parse(loadedCoords);
+		getWeather(parseCoords.latitude, parseCoords.longitude);
 	}
 }
 

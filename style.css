@@ -1,9 +1,6 @@
 body{
-	background-color: #87ceeb;
-  }
-
-body{
 	background-color: #dfe4ea;
+	color: white;
 }
 
 .clicked{
@@ -22,7 +19,6 @@ cursor:pointer;
 .showing{
 	display:block;
 }
-
 
 @keyframes fadeIn{
 	from{
